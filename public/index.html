@@ -1,0 +1,105 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Overgrown</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+ <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+
+</head>
+
+<body>
+  <script src="js/client.js"></script>
+  <v-app  id="app"  position="relative">
+  	<v-card    flat style="background-color: rgba(0,255,0,1)">
+	 		<v-card-text>
+		  	<v-row>
+		  		<v-col cols="8">
+				  	<v-card flat>
+				  		<v-card-text>
+				  			<div position="absolute">
+									  <SVG viewbox="-100 0 1000 100">
+									  	<line x1="0" y1="0" x2="0" y2="100" stroke="gray" stroke-width="2px"></line>
+									  	<line x1="-10" y1="50" x2="1000" y2="50" stroke="gray" stroke-width="3px"></line>
+									  	<g  v-for="tick in ticks">
+								  			<line :x1="(tick.t - t) * speed" :x2="(tick.t - t) * speed" :y="60" y2="100"  fill="none" stroke="black" stroke-width="2px"></CIRCLE>
+								  		</g>
+
+									  	<g  v-for="note in notes">
+								  			<CIRCLE :cx="(note.t - t) * speed" :cy="50"  fill="none" stroke="black" stroke-width="3px" :r="12"></CIRCLE>
+								  			<CIRCLE :cx="(note.t - t) * speed" :cy="50"  :fill="note.success? 'green' : 'pink'" stroke=none  :r="5"></CIRCLE>
+								  		</g>
+							  		</SVG>
+				  			</div>
+
+							  <v-row>
+								  <v-col>
+	  							  <video controls @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px;" autoplay src="media/yourFirstBattle.mp4"></video>
+								</v-col>
+								<v-spacer></v-spacer>
+								</v-row>
+							</v-card-text>
+						</v-card>
+					</v-col>
+					<v-col cols="4">
+						<v-card>
+							<v-card-text>
+								<v-col cols="12" v-for="character in characters">
+									<v-dialog  
+							      transition="slide-x-reverse-transition"
+							      class="characterSheet"
+							      >
+							      <template v-slot:activator="{ on, attrs }">
+							        <v-btn
+							          color="primary"
+							          dark
+							          block
+							          v-bind="attrs"
+							          v-on="on"
+							        >
+							          {{character.name}}
+							        </v-btn>
+							      </template>
+							      <v-card>
+							      	<v-card-title>{{character.name}}</v-card-title>
+							      	<v-card-text>
+							      		<v-row>
+							      		<v-col cols="10">{{character.description}}</v-col>
+							      		<v-col cols="2" v-if="character.portrait">
+							      			<v-img :src="character.portrait"
+						      			 	></v-img>
+							      		</v-col>
+								      	</v-row>
+								      	<v-row v-if="character.skills && character.skills.length > 0">
+									      	<h2 >Skills</h2>
+								      		<v-col v-for="skill in character.skills">{{skill}}</v-col>
+								      	</v-row>
+							      	</v-card-text>
+							      </v-card>
+									</v-dialog>
+								</v-col>
+							</v-card-text>
+						</v-card>
+						<v-card>
+							<v-btn @click="saveNotes">Save Notes</v-btn><v-switch v-model="record"></v-switch>
+							<p>{{JSON.stringify(window.localStorage.notes)}}</p>
+						</v-card>
+					</v-col>
+				</v-row>
+			</v-card-text>
+		</v-card>
+		</v-app>
+	</v-app>
+
+</body>
+</html>
