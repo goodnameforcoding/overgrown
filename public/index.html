@@ -28,12 +28,12 @@
 				  	<v-card flat>
 				  		<v-card-text>
 				  			<div style="position: relative;">
-  							  <video controls @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px" autoplay src="media/yourFirstBattle.mp4"></video>
+  							  <video controls @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px" autoplay :src="scene.url"></video>
 								  <SVG viewbox="0 0 1000 1000" style="position:absolute; top: 0; left: 0; right: 0; bottom: 0;">
 								  	<line :x1="offset" y1="0" :x2="offset" y2="100" stroke="gray" stroke-width="2px"></line>
 								  	<line :x1="offset" y1="50" x2="1000" y2="50" stroke="gray" stroke-width="3px"></line>
 								  	<g  v-for="tick in ticks">
-							  			<line :x1="offset + (tick.t - t) * speed" :x2="offset + (tick.t - t) * speed" :y1="50 - tick.size / 2" :y2="50 + tick.size / 2"  fill="none" stroke="white" :stroke-width="tick.stroke"></line>
+							  			<line :x1="offset + (tick.t - t) * speed" :x2="offset + (tick.t - t) * speed" :y1="50 - tick.size / 2" :y2="50 + tick.size / 2"  fill="none" stroke="#AAAAFF" :stroke-width="tick.stroke"></line>
 							  		</g>
 
 								  	<g  v-for="note in notes">
@@ -48,7 +48,7 @@
 						</v-card>
 					</v-col>
 					<v-col cols="4">
-						<v-card>
+						<v-card>l
 							<v-card-text>
 								<v-col cols="12" v-for="character in characters">
 									<v-dialog  

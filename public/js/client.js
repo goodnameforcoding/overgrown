@@ -7,10 +7,10 @@ window.onload = function() {
 	let scenes = {
 		yourFirstBattle: {
 
-			video: "media/yourFirstBattle.mp4",
+			url: "media/yourFirstBattle.mp4",
 			bpm: 140,
 			startPhase: 1,
-
+			nextSceneKey: "yourFirstBattle",
 		}
 	}
 
@@ -108,9 +108,14 @@ $(document).keydown(function(e) {
 				if (video) {
 					let duration = video.duration;
 
-					this.t =  this.$refs.video? this.$refs.video.currentTime : 0;
+					this.t = video? video.currentTime : 0;
 					this.x = 100 + Math.sin(this.t) * 100;
 					this.y = 100 + Math.cos(this.t) * 100;
+					if (this.t >= duration) {
+						this.scene = scenes[this.scene.nextSceneKey];
+						video.currentTime = 0;
+						console.log("done");
+					}
 					setTimeout(this.tick, 1000/ this.fps);
 				}
 			},
