@@ -1,4 +1,4 @@
-//how to involve the player / user more
+ //how to involve the player / user more
 
 console.log("text");
 window.onload = function() {
@@ -52,9 +52,11 @@ $(document).keydown(function(e) {
 				scene: scenes.yourFirstBattle,
 				ticks: [],
 				bpm: 140,
+				blings: [],
 				speed: 300,
 				record: false,
 				startPhase: 7.2,
+				offset: 100,
 				video: null,
 				notes: [],
 				characters,
@@ -78,7 +80,11 @@ $(document).keydown(function(e) {
 
 				if (this.video) {
 					if(this.record) {
-						this.notes.push({t: this.t});
+						let closestTime = null;
+						for(let tick of this.ticks) {
+							closestTime = Math.abs(tick.t - this.t) < Math.abs(closestTime - this.t) ?  tick.t : closestTime;
+						}
+						this.notes.push({t: closestTime});
 					} else {
 						this.checkHit();
 					}
@@ -124,8 +130,11 @@ $(document).keydown(function(e) {
 				if(window.localStorage.notes) {
 					this.notes = storedNotes;
 				}
-				for(let i = startPhase; i < videoDuration ; i+=tickDistance / 2) {					
-						this.ticks.push({t: i})
+				for(let i = startPhase; i < videoDuration ; i+=tickDistance) {					
+						this.ticks.push({t: i, size: 40, stroke: 3});
+						this.ticks.push({t: i + tickDistance / 2, size: 20, stroke: 2});
+						this.ticks.push({t: i + tickDistance / 3, size: 10, stroke: 1});
+						this.ticks.push({t: i + 2* tickDistance / 3, size: 10, stroke: 1});
 						//this.notes.push({t: i });
 				}
 				this.tick();
