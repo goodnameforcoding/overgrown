@@ -53,11 +53,15 @@ $(document).keydown(function(e) {
 				ticks: [],
 				bpm: 140,
 				blings: [],
+				staffColor: "rgba(0,0,0,0.5)",
+				strokeColor: "rgba(0,0,0, 0.25)",
 				speed: 300,
 				record: false,
 				startPhase: 7.2,
 				offset: 100,
 				video: null,
+				mainStyle: "background: linear-gradient( rgb(25,50,25),rgba(0,255,0,1) )",
+				insideBoxStyle:"background: rgba(128,255,128,1)",
 				notes: [],
 				characters,
 				x:100,
@@ -109,12 +113,11 @@ $(document).keydown(function(e) {
 					let duration = video.duration;
 
 					this.t = video? video.currentTime : 0;
-					this.x = 100 + Math.sin(this.t) * 100;
-					this.y = 100 + Math.cos(this.t) * 100;
+				
 					if (this.t >= duration) {
 						this.scene = scenes[this.scene.nextSceneKey];
 						video.currentTime = 0;
-						console.log("done");
+						video.play();	
 					}
 					setTimeout(this.tick, 1000/ this.fps);
 				}

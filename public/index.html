@@ -21,19 +21,19 @@
 <body>
   <script src="js/client.js"></script>
   <v-app  id="app"  position="relative">
-  	<v-card    flat style="background-color: rgba(0,255,0,1)">
+  	<v-card    flat :style="mainStyle" >
 	 		<v-card-text>
 		  	<v-row>
 		  		<v-col cols="8">
-				  	<v-card flat>
+				  	<v-card flat :style="insideBoxStyle">
 				  		<v-card-text>
 				  			<div style="position: relative;">
   							  <video controls @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px" autoplay :src="scene.url"></video>
 								  <SVG viewbox="0 0 1000 1000" style="position:absolute; top: 0; left: 0; right: 0; bottom: 0;">
-								  	<line :x1="offset" y1="0" :x2="offset" y2="100" stroke="gray" stroke-width="2px"></line>
-								  	<line :x1="offset" y1="50" x2="1000" y2="50" stroke="gray" stroke-width="3px"></line>
+								  	<line :x1="offset" y1="0" :x2="offset" y2="100" :stroke="staffColor" stroke-width="2px"></line>
+								  	<line :x1="offset" y1="50" x2="1000" y2="50" :stroke="staffColor" stroke-width="3px"></line>
 								  	<g  v-for="tick in ticks">
-							  			<line :x1="offset + (tick.t - t) * speed" :x2="offset + (tick.t - t) * speed" :y1="50 - tick.size / 2" :y2="50 + tick.size / 2"  fill="none" stroke="#AAAAFF" :stroke-width="tick.stroke"></line>
+							  			<line :x1="offset + (tick.t - t) * speed" :x2="offset + (tick.t - t) * speed" :y1="50 - tick.size / 2" :y2="50 + tick.size / 2"  fill="none" :stroke="strokeColor" :stroke-width="tick.stroke"></line>
 							  		</g>
 
 								  	<g  v-for="note in notes">
@@ -89,7 +89,11 @@
 						<v-card>
 							<v-btn @click="saveNotes">Save Notes</v-btn><v-switch v-model="record"></v-switch>
 							<v-text-field v-model="startPhase" label="Second to start ticks"></v-text-field>
-							<v-text-field v-model="t" label="Second to start ticks"></v-text-field>
+							<v-text-field v-model="mainStyle" label="main background style"></v-text-field>
+							<v-text-field v-model="insideBoxStyle" label="inner box style"></v-text-field>
+
+							<v-text-field v-model="strokeColor" label="track tick color"></v-text-field>
+							<v-text-field v-model="staffColor" label="main staff color"></v-text-field>
 						</v-card>
 					</v-col>
 				</v-row>
