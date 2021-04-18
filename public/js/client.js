@@ -1,6 +1,7 @@
  //how to involve the player / user more
 
 console.log("text");
+const url = 'https://spreadsheets.google.com/feeds/cells/1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM/1/public/full?alt=json';
 window.onload = function() {
 	console.log("window loaded");
 	let app;
@@ -9,8 +10,11 @@ window.onload = function() {
 
 			url: "media/yourFirstBattle.mp4",
 			bpm: 140,
-			startPhase: 1,
-			nextSceneKey: "yourFirstBattle",
+			sceneType: "battle",
+			startPhase: 7.2,
+			nextSceneFunc: function(gameState) {
+				return "yourFirstBattle";
+			},
 		}
 	}
 
@@ -43,25 +47,26 @@ $(document).keydown(function(e) {
 	let track = {
 		events: []
 	};
-
 	app = new Vue({
 		el: "#app",
 		vuetify: new Vuetify(),
 		data () {
 			return {
+				sheetCode: '1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM',
+				scenes: scenes,
 				scene: scenes.yourFirstBattle,
 				ticks: [],
 				bpm: 140,
 				blings: [],
-				staffColor: "rgba(0,0,0,0.5)",
-				strokeColor: "rgba(0,0,0, 0.25)",
+				staffColor: "rgba(177,245,157,1)",
+				strokeColor: "rgba(177,245,157, 0.5)",
 				speed: 300,
 				record: false,
 				startPhase: 7.2,
 				offset: 100,
 				video: null,
-				mainStyle: "background: linear-gradient( rgb(25,50,25),rgba(0,255,0,1) )",
-				insideBoxStyle:"background: rgba(128,255,128,1)",
+				mainStyle: "background:radial-gradient(circle, rgba(18,74,2,1) 0%, rgba(114,170,99,1) 100%)",
+				insideBoxStyle:"background: rgba(0,0,0,1)",
 				notes: [],
 				characters,
 				x:100,
@@ -73,6 +78,9 @@ $(document).keydown(function(e) {
 		},
 		created: function() {
 			$(document).keydown(this.handleKeyPress);
+			this.loadJson(1).then(jsonData => {
+				console.log(jsonData);
+			});
 		},
 		computed: {
 			videoUrl: function() {
@@ -80,9 +88,23 @@ $(document).keydown(function(e) {
 			}
 		},
 		methods: {
+
+			async loadJson(sheetNumber) {
+				return await fetch(`https://spreadsheets.google.com/feeds/cells/${this.sheetCode}/${sheetNumber}/public/full?alt=json`).then(response => response.json());
+			},
 			handleKeyPress(e) {
 
 				if (this.video) {
+					console.log(e.keyCode);
+					if(e.keyCode == 49) {
+						this.video.playbackRate = 1;
+
+					}else if (e.keyCode == 50) {
+						this.video.playbackRate = 0.5;
+					}else if (e.keyCode == 51) {
+						this.video.playbackRate = 0.25;
+					}
+					console.log(this.video.playbackRate);
 					if(this.record) {
 						let closestTime = null;
 						for(let tick of this.ticks) {
@@ -115,7 +137,7 @@ $(document).keydown(function(e) {
 					this.t = video? video.currentTime : 0;
 				
 					if (this.t >= duration) {
-						this.scene = scenes[this.scene.nextSceneKey];
+						this.scene = this.scenes[this.scene.nextSceneFunc(this.data)];
 						video.currentTime = 0;
 						video.play();	
 					}
