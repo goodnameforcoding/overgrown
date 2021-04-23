@@ -45,6 +45,10 @@
 						  		</SVG>
 						  	</div>
 							</v-card-text>
+							<v-card-actions>
+								<v-row>
+									<v-btn v-for="decision in decisions" @click="makeDecision(decision)">{{decision.text}}</v-btn>
+								</v-row>
 						</v-card>
 					</v-col>
 					<v-col cols="4">
@@ -88,12 +92,6 @@
 						</v-card>
 						<v-card>
 							<v-btn @click="saveNotes">Save Notes</v-btn><v-switch v-model="record"></v-switch>
-							<v-text-field v-model="startPhase" label="Second to start ticks"></v-text-field>
-							<v-text-field v-model="mainStyle" label="main background style"></v-text-field>
-							<v-text-field v-model="insideBoxStyle" label="inner box style"></v-text-field>
-
-							<v-text-field v-model="strokeColor" label="track tick color"></v-text-field>
-							<v-text-field v-model="staffColor" label="main staff color"></v-text-field>
 						</v-card>
 					</v-col>
 				</v-row>
