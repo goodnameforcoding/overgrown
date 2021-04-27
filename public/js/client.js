@@ -3,6 +3,7 @@ const url = 'https://spreadsheets.google.com/feeds/cells/1G_W2VwxkauhjoE3akiS6VK
 window.onload = function() {
 	console.log("window loaded");
 	let app;
+	/*
 	let scenes = {
 		lv1sg1cap: {
 			url: "media/level1/LV1SG1CAP_BLACKBG.mp4",
@@ -20,10 +21,8 @@ window.onload = function() {
 			nextScene: "",
 		},
 		yourFirstBattle: {
-
 			url: "media/yourFirstBattle.mp4",
 			bpm: 140,
-			sceneType: "battle",
 			startPhase: 7.2,
 			decisions: [
 				{text: "Captain", targetScene: "lv1sg1cap" },
@@ -32,7 +31,7 @@ window.onload = function() {
 
 			],
 		}
-	}
+	}*/
 
 	let characters = [
    {
@@ -69,9 +68,10 @@ $(document).keydown(function(e) {
 		data () {
 			return {
 				sheetCode: '1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM',
-				scenes: scenes,
-				scene: scenes.yourFirstBattle,
+				scenes: [],
+				scene: null,
 				ticks: [],
+				url: null,
 				bpm: 140,
 				blings: [],
 				staffColor: "rgba(177,245,157,1)",
@@ -96,6 +96,10 @@ $(document).keydown(function(e) {
 		 created: async function() {
 			let jsonData = await this.loadJson(1);
 			let baseSheet = this.parseSheet(jsonData);
+			this.populateSceneInfos(baseSheet);
+			this.rawSceneData = baseSheet;
+			console.log(this.scenes);
+			this.scene = this.scenes.yourFirstBattle;
 			this.startScene();
 
 		},
@@ -105,12 +109,36 @@ $(document).keydown(function(e) {
 			}
 		},
 		methods: {
-			startScene: function() {
+			startScene: async function() {
+				console.log("starting Scene");
+				console.log(this.scene);
 				this.decisions = null;
+				let notes = await this.getNotes(this.scene);
+				console.log("notes", notes);
+				this.notes = notes? notes : [];
 				this.bpm = this.scene.bpm;
+				this.url = this.scene.url;
 				this.startPhase = this.scene.startPhase;
-				this.tick();
 
+			},
+			getNotes: async function(scene) {
+				console.log("loading notes for", scene);
+				let noteData = await this.loadJson(scene.rhythmSheet);
+				let sheetJson = this.parseSheet(noteData);
+				console.log("NOTES", sheetJson);
+				return sheetJson;
+			},
+			populateSceneInfos(levelInfos){
+				for(let info of levelInfos) {
+					let level = {... info};
+					console.log(level);
+					if(level.decisions) {
+						console.log(level.decisions);
+					 	level.decisions = JSON.parse(level.decisions);
+					}
+					this.scenes[level.level] = level;
+				}
+				console.log(this.scenes);
 			},
 			parseSheet(sheetJson) {
 				let entries = sheetJson.feed.entry;
@@ -127,9 +155,7 @@ $(document).keydown(function(e) {
 					let col = entry['gs$cell'].col - 1;
 					let row =  entry['gs$cell'].row - 1;
 					rowMax = Math.max(row, rowMax);
-					console.log(row, rowMax)
 					let cell = { col , row, content: entry.content['$t']};
-					console.log(cell);
 					if(row == 0) {
 						headers[col] = cell.content;
 					} else if(cell.content) {
@@ -145,19 +171,14 @@ $(document).keydown(function(e) {
 					}
 					out.push(object);
 				}
-				console.log(out);
-				return rows;
+				return out;
 			},
 			async loadJson(sheetNumber) {
 				console.log("Loading scene...");
 				let response =  await fetch(`https://spreadsheets.google.com/feeds/cells/${this.sheetCode}/${sheetNumber}/public/full?alt=json`);
 				return response.json();
 			},
-			async makeDecision(decision) {
-				this.scene = decision.targetScene;
-				this.startScene();
 
-			},
 			handleKeyPress(e) {
 
 				if (this.video) {
@@ -217,14 +238,17 @@ $(document).keydown(function(e) {
 			makeDecision: function(decisionMade) {
 				console.log(decisionMade);
 				this.scene = this.scenes[decisionMade.targetScene];
+				//this.startScene();
 			},
 			saveNotes: function() {
 				this.localStorage.notes = this.notes;
 			},
 			onVideoLoad: function(e) {
+				return;
 				let video = e.target;
 				this.video = video;
 				if(this.scene.bpm) {
+
 					this.bpm = this.scene.bpm;
 					let bpm = this.bpm;
 					let startPhase = this.startPhase;
@@ -242,7 +266,10 @@ $(document).keydown(function(e) {
 							this.ticks.push({t: i + tickDistance / 3, size: 10, stroke: 1});
 							this.ticks.push({t: i + 2* tickDistance / 3, size: 10, stroke: 1});
 							//this.notes.push({t: i });
-					}					
+					}
+					console.log("ticks", this.ticks);
+				} else {
+					console.log("No bpm");
 				}
 				this.tick();
 			},
