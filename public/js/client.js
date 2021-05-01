@@ -273,6 +273,10 @@ window.onload = function() {
 			endScene: function(scene) {
 				if(scene.decisions) {
 					this.decisions = scene.decisions;
+				} else if {
+					scene.nextScene;
+					this.scene = this.scenesByName[nextScene];
+					this.startScene
 				}
 			},
 			makeDecision: function(decisionMade) {
@@ -297,8 +301,6 @@ window.onload = function() {
 					let startPhase = parseFloat(this.startPhase ? this.startPhase : 0);
 					let videoDuration = video.duration;
 					let tickDistance = 60 / bpm;
-					console.log(tickDistance, bpm, startPhase, videoDuration);
-					console.log("onload", startPhase, videoDuration, tickDistance);
 					let barCount = videoDuration / tickDistance;
 					for(let i = 0; i < barCount ; i++) {
 							let tickPlace = i * tickDistance + startPhase;	
