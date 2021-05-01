@@ -112,8 +112,7 @@ window.onload = function() {
 			let baseSheet = this.parseSheet(jsonData);
 			this.populateSceneInfos(baseSheet);
 			this.rawSceneData = baseSheet;
-			console.log(this.scenes);
-			this.scene = this.scenesByName.yourFirstBattle;
+			this.scene = this.scenesByName.lvl1sc1;
 			this.startScene();
 
 		},
@@ -137,6 +136,7 @@ window.onload = function() {
 			},	
 			startScene: async function() {
 				console.log("starting Scene");
+				console.log(this.sceneKey);
 				console.log(this.scene);
 				this.decisions = null;
 				if(this.scene.bpm) {
@@ -261,9 +261,12 @@ window.onload = function() {
 				while(!video) {
 					video = this.$refs.video;
 				}
-				while(this.t <= video.duration && this.sceneKey == currentScene) {		
+				while(this.t < video.duration && this.sceneKey == currentScene) {		
+					console.log("tick", this.t, video.duration, this.sceneKey, currentScene, this.t <= video.duration);
 					this.t = video? video.currentTime : 0;
+
 					await timeout(1000/this.fps);
+
 
 				}
 				this.endScene(this.scene);
@@ -271,12 +274,14 @@ window.onload = function() {
 				
 			},
 			endScene: function(scene) {
+				console.log("End Scene");
 				if(scene.decisions) {
 					this.decisions = scene.decisions;
-				} else if {
-					scene.nextScene;
-					this.scene = this.scenesByName[nextScene];
-					this.startScene
+				} else if (scene.nextScene) {
+					;
+					this.sceneKey  = scene.nextScene;
+					this.scene = this.scenesByName[scene.nextScene];
+					this.startScene();
 				}
 			},
 			makeDecision: function(decisionMade) {
@@ -314,6 +319,7 @@ window.onload = function() {
 					console.log("No bpm");
 				}
 				this.startFrameUpdate ();
+
 
 			}
 		},
