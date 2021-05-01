@@ -80,6 +80,8 @@ window.onload = function() {
 			return {
 				sheetCode: '1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA',
 				scenes: [],
+				scenesByName: {},
+				sceneKey: "",
 				scene: null,
 				ticks: [],
 				url: null,
@@ -111,14 +113,14 @@ window.onload = function() {
 			this.populateSceneInfos(baseSheet);
 			this.rawSceneData = baseSheet;
 			console.log(this.scenes);
-			this.scene = this.scenes.yourFirstBattle;
+			this.scene = this.scenesByName.yourFirstBattle;
 			this.startScene();
 
 		},
 		computed: {
 			videoUrl: function() {
 				return this.scene? scene.video : false;
-			}
+			},
 		},
 		methods: {
 			getCx: function(note) {
@@ -127,13 +129,21 @@ window.onload = function() {
 			tickX: function(tick) {
 				return (tick.t - this.t) * this.speed;
 			},
+			changeScene: function(e) {
+
+				console.log("CHANGE SCENE", this.sceneKey);
+				this.scene = this.scenesByName[this.sceneKey];
+				this.startScene();
+			},	
 			startScene: async function() {
 				console.log("starting Scene");
 				console.log(this.scene);
 				this.decisions = null;
-				let notes = await this.getNotes(this.scene);
-				console.log("notes", notes);
-				this.notes = notes? notes : [];
+				if(this.scene.bpm) {
+					 this.notes = await this.getNotes(this.scene);
+				} else {
+					this.notes = [];
+				}
 				this.bpm = this.scene.bpm;
 				this.url = this.scene.url;
 				this.startPhase = this.scene.startPhase;
@@ -154,9 +164,10 @@ window.onload = function() {
 						console.log(level.decisions);
 					 	level.decisions = JSON.parse(level.decisions);
 					}
-					this.scenes[level.level] = level;
+					this.scenes.push(level);
+					this.scenesByName[level.level] = level;
 				}
-				console.log(this.scenes);
+				console.log("SCENES", this.scenes);
 			},
 			parseSheet(sheetJson) {
 				let entries = sheetJson.feed.entry;
@@ -224,6 +235,10 @@ window.onload = function() {
 				}				
 
 			},
+			changeVideo: function() {
+				this.startScene();
+
+			},
 			checkHit:function() {
 				let notes = this.notes;
 				for(note of notes) {
@@ -242,8 +257,7 @@ window.onload = function() {
 					throw "DOUBLE TICK BAD";
 				}
 				let video;
-
-				while( !video) {
+				while(!video) {
 					video = this.$refs.video;
 				}
 				while(this.t <= video.duration) {		
@@ -262,8 +276,8 @@ window.onload = function() {
 			},
 			makeDecision: function(decisionMade) {
 				console.log(decisionMade);
-				this.scene = this.scenes[decisionMade.targetScene];
-				//this.startScene();
+				this.scene = this.scenesByName[decisionMade.targetScene];
+				this.startScene();
 			},
 			saveNotes: function() {
 				this.localStorage.notes = this.notes;

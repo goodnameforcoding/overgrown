@@ -52,7 +52,8 @@
 						</v-card>
 					</v-col>
 					<v-col cols="4">
-						<v-card>l
+						<v-card>
+							<v-select :items="scenes" @input="changeScene" v-model="sceneKey" item-text="level"></v-select>
 							<v-card-text>
 								<v-col cols="12" v-for="character in characters">
 									<v-dialog  
