@@ -129,6 +129,7 @@ window.onload = function() {
 				return (tick.t - this.t) * this.speed;
 			},
 			changeScene: function(e) {
+				this.video = null;
 
 				console.log("CHANGE SCENE", this.sceneKey);
 				this.scene = this.scenesByName[this.sceneKey];
@@ -136,8 +137,6 @@ window.onload = function() {
 			},	
 			startScene: async function() {
 				console.log("starting Scene");
-				console.log(this.sceneKey);
-				console.log(this.scene);
 				this.decisions = null;
 				if(this.scene.bpm) {
 					 this.notes = await this.getNotes(this.scene);
@@ -258,17 +257,19 @@ window.onload = function() {
 					throw "DOUBLE TICK BAD";
 				}
 				let video;
-				while(!video) {
-					video = this.$refs.video;
+				while(!video || video.duration <= 0) {
+					video = this.video;
 				}
-				while(this.t < video.duration && this.sceneKey == currentScene) {		
-					console.log("tick", this.t, video.duration, this.sceneKey, currentScene, this.t <= video.duration);
+				this.t = 0;
+				console.log("Starting ticks...", this.sceneKey	, currentScene);
+				while(this.t < video.duration) {
 					this.t = video? video.currentTime : 0;
 
 					await timeout(1000/this.fps);
 
 
 				}
+				console.log("ending ticks");
 				this.endScene(this.scene);
 				this.ticksActive--;
 				
@@ -278,25 +279,25 @@ window.onload = function() {
 				if(scene.decisions) {
 					this.decisions = scene.decisions;
 				} else if (scene.nextScene) {
-					;
-					this.sceneKey  = scene.nextScene;
-					this.scene = this.scenesByName[scene.nextScene];
-					this.startScene();
+					this.sceneKey = scene.nextScene; //this WILL automatically change the scene key
+					this.changeScene();
 				}
 			},
 			makeDecision: function(decisionMade) {
 				console.log(decisionMade);
-				this.scene = this.scenesByName[decisionMade.targetScene];
-				this.startScene();
+				this.sceneKey = decisionMade.targetScene;
+				this.changeScene();
 			},
 			saveNotes: function() {
 				this.localStorage.notes = this.notes;
 			},
 			onVideoLoad: function(e) {
+
 				let video = e.target;
 				this.video = video;
+				console.log(video.duration);
 				let z = 1;
-				console.log("loaded", this.bpm, this.scene.bpm);
+				console.log("loaded", video);
 				this.ticks = [];
 				if(this.scene.bpm) {
 					this.bpm = this.scene.bpm;
