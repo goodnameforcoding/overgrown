@@ -136,6 +136,7 @@ window.onload = function() {
 				this.startScene();
 			},	
 			startScene: async function() {
+				this.t = 0;
 				console.log("starting Scene");
 				this.decisions = null;
 				if(this.scene.bpm) {
@@ -261,15 +262,16 @@ window.onload = function() {
 					video = this.video;
 				}
 				this.t = 0;
-				console.log("Starting ticks...", this.sceneKey	, currentScene);
-				while(this.t < video.duration) {
+				video.currentTime = 0;
+				console.log("Starting ticks...", this.sceneKey	, currentScene, this.t, video.duration, video.currentTime);
+				while(!video.ended) {
 					this.t = video? video.currentTime : 0;
 
 					await timeout(1000/this.fps);
 
 
 				}
-				console.log("ending ticks");
+				console.log("ending ticks", this.sceneKey, currentScene, video.currentTime, video.duration);
 				this.endScene(this.scene);
 				this.ticksActive--;
 				
