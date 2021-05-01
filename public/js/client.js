@@ -1,4 +1,10 @@
 console.log("text");
+
+let PLAY_NORMAL = 49;
+let SLOW_1 = 50;
+let SLOW_2 = 51;
+
+
 const url = 'https://spreadsheets.google.com/feeds/cells/1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM/1/public/full?alt=json';
 window.onload = function() {
 	console.log("window loaded");
@@ -33,6 +39,10 @@ window.onload = function() {
 		}
 	}*/
 
+	function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 	let characters = [
    {
 			name: "captain", 
@@ -54,9 +64,10 @@ window.onload = function() {
 		},		
 	];
 
-$(document).keydown(function(e) {
-	if(app) app.handleKeyPress(e);
-});
+	$(document).keydown(function(e) {
+		if(app) app.handleKeyPress(e);
+		console.log("keydown", e)
+	});
 
 
 	let track = {
@@ -67,11 +78,12 @@ $(document).keydown(function(e) {
 		vuetify: new Vuetify(),
 		data () {
 			return {
-				sheetCode: '1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM',
+				sheetCode: '1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA',
 				scenes: [],
 				scene: null,
 				ticks: [],
 				url: null,
+				ticksActive: 0,
 				bpm: 140,
 				blings: [],
 				staffColor: "rgba(177,245,157,1)",
@@ -89,7 +101,7 @@ $(document).keydown(function(e) {
 				x:100,
 				y: 100,
 				t: 0,
-				fps: 60,
+				fps: 24,
 				tolerance: 0.2,
 			}
 		},
@@ -109,6 +121,12 @@ $(document).keydown(function(e) {
 			}
 		},
 		methods: {
+			getCx: function(note) {
+				return (note.t - this.t) * this.speed;
+			},
+			tickX: function(tick) {
+				return (tick.t - this.t) * this.speed;
+			},
 			startScene: async function() {
 				console.log("starting Scene");
 				console.log(this.scene);
@@ -122,16 +140,16 @@ $(document).keydown(function(e) {
 
 			},
 			getNotes: async function(scene) {
-				console.log("loading notes for", scene);
 				let noteData = await this.loadJson(scene.rhythmSheet);
 				let sheetJson = this.parseSheet(noteData);
-				console.log("NOTES", sheetJson);
+				for(let note of sheetJson) {
+					note.t = parseFloat(note.t);
+				}
 				return sheetJson;
 			},
 			populateSceneInfos(levelInfos){
 				for(let info of levelInfos) {
 					let level = {... info};
-					console.log(level);
 					if(level.decisions) {
 						console.log(level.decisions);
 					 	level.decisions = JSON.parse(level.decisions);
@@ -180,15 +198,15 @@ $(document).keydown(function(e) {
 			},
 
 			handleKeyPress(e) {
-
+				console.log("Handle key press...", e);
 				if (this.video) {
 					console.log(e.keyCode);
-					if(e.keyCode == 49) {
+					if(e.keyCode == PLAY_NORMAL	) {
 						this.video.playbackRate = 1;
 
-					}else if (e.keyCode == 50) {
+					}else if (e.keyCode == SLOW_1) {
 						this.video.playbackRate = 0.5;
-					}else if (e.keyCode == 51) {
+					}else if (e.keyCode == SLOW_2) {
 						this.video.playbackRate = 0.25;
 					}
 					console.log(this.video.playbackRate);
@@ -197,6 +215,7 @@ $(document).keydown(function(e) {
 						for(let tick of this.ticks) {
 							closestTime = Math.abs(tick.t - this.t) < Math.abs(closestTime - this.t) ?  tick.t : closestTime;
 						}
+						console.log(this.notes);
 						this.notes.push({t: closestTime});
 					} else {
 						this.checkHit();
@@ -216,19 +235,25 @@ $(document).keydown(function(e) {
 					}
 				}
 			},
-			tick: function() {
-				let video = this.$refs.video;
-				if (video) {
-					let duration = video.duration;
-
-					this.t = video? video.currentTime : 0;
-				
-					if (this.t >= duration) {
-						this.endScene(this.scene);
-					} else {
-						setTimeout(this.tick, 1000/ this.fps);
-					}
+			
+			startFrameUpdate: async function() {
+				this.ticksActive++;
+				if(this.ticksActive > 1) {
+					throw "DOUBLE TICK BAD";
 				}
+				let video;
+
+				while( !video) {
+					video = this.$refs.video;
+				}
+				while(this.t <= video.duration) {		
+					this.t = video? video.currentTime : 0;
+					await timeout(1000/this.fps);
+
+				}
+				this.endScene(this.scene);
+				this.ticksActive--;
+				
 			},
 			endScene: function(scene) {
 				if(scene.decisions) {
@@ -244,34 +269,34 @@ $(document).keydown(function(e) {
 				this.localStorage.notes = this.notes;
 			},
 			onVideoLoad: function(e) {
-				return;
 				let video = e.target;
 				this.video = video;
+				let z = 1;
 				if(this.scene.bpm) {
-
 					this.bpm = this.scene.bpm;
-					let bpm = this.bpm;
-					let startPhase = this.startPhase;
+
+					//this.bpm = this.scene.bpm;
+					let bpm = parseFloat(this.bpm);
+					let startPhase = parseFloat(this.startPhase ? this.startPhase : 0);
 					let videoDuration = video.duration;
-					let songDuration = videoDuration - startPhase; 
 					let tickDistance = 60 / bpm;
+					console.log(tickDistance, bpm, startPhase, videoDuration);
 					console.log("onload", startPhase, videoDuration, tickDistance);
-					let storedNotes = window.localStorage.notes;
-					if(window.localStorage.notes) {
-						this.notes = storedNotes;
+					let barCount = videoDuration / tickDistance;
+
+					for(let i = 0; i < barCount ; i++) {
+							let tickPlace = i * tickDistance + startPhase;	
+							this.ticks.push({t: tickPlace, size: 40, stroke: 3});
+							this.ticks.push({t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
+							this.ticks.push({t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
+							this.ticks.push({t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
 					}
-					for(let i = startPhase; i < videoDuration ; i+=tickDistance) {					
-							this.ticks.push({t: i, size: 40, stroke: 3});
-							this.ticks.push({t: i + tickDistance / 2, size: 20, stroke: 2});
-							this.ticks.push({t: i + tickDistance / 3, size: 10, stroke: 1});
-							this.ticks.push({t: i + 2* tickDistance / 3, size: 10, stroke: 1});
-							//this.notes.push({t: i });
-					}
-					console.log("ticks", this.ticks);
+					console.log(this.ticks);
 				} else {
 					console.log("No bpm");
 				}
-				this.tick();
+				this.startFrameUpdate ();
+
 			},
 		},
 	});
