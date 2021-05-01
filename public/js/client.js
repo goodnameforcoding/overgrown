@@ -253,6 +253,7 @@ window.onload = function() {
 			
 			startFrameUpdate: async function() {
 				this.ticksActive++;
+				let currentScene = this.sceneKey;
 				if(this.ticksActive > 1) {
 					throw "DOUBLE TICK BAD";
 				}
@@ -260,7 +261,7 @@ window.onload = function() {
 				while(!video) {
 					video = this.$refs.video;
 				}
-				while(this.t <= video.duration) {		
+				while(this.t <= video.duration && this.sceneKey == currentScene) {		
 					this.t = video? video.currentTime : 0;
 					await timeout(1000/this.fps);
 
@@ -286,6 +287,8 @@ window.onload = function() {
 				let video = e.target;
 				this.video = video;
 				let z = 1;
+				console.log("loaded", this.bpm, this.scene.bpm);
+				this.ticks = [];
 				if(this.scene.bpm) {
 					this.bpm = this.scene.bpm;
 
@@ -297,7 +300,6 @@ window.onload = function() {
 					console.log(tickDistance, bpm, startPhase, videoDuration);
 					console.log("onload", startPhase, videoDuration, tickDistance);
 					let barCount = videoDuration / tickDistance;
-
 					for(let i = 0; i < barCount ; i++) {
 							let tickPlace = i * tickDistance + startPhase;	
 							this.ticks.push({t: tickPlace, size: 40, stroke: 3});
@@ -311,7 +313,7 @@ window.onload = function() {
 				}
 				this.startFrameUpdate ();
 
-			},
+			}
 		},
 	});
 
