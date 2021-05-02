@@ -103,7 +103,7 @@ window.onload = function() {
 				x:100,
 				y: 100,
 				t: 0,
-				fps: 24,
+				fps: 60,
 				tolerance: 0.2,
 			}
 		},
@@ -255,7 +255,7 @@ window.onload = function() {
 				this.ticksActive++;
 				let currentScene = this.sceneKey;
 				if(this.ticksActive > 1) {
-					throw "DOUBLE TICK BAD";
+					//throw "DOUBLE TICK BAD";
 				}
 				let video;
 				while(!video || video.duration <= 0) {
@@ -312,10 +312,11 @@ window.onload = function() {
 					let barCount = videoDuration / tickDistance;
 					for(let i = 0; i < barCount ; i++) {
 							let tickPlace = i * tickDistance + startPhase;	
-							this.ticks.push({t: tickPlace, size: 40, stroke: 3});
-							this.ticks.push({t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
-							this.ticks.push({t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
-							this.ticks.push({t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
+							this.ticks.push({image:true, width:tickDistance * this.speed, t: tickPlace, size: 40, stroke: 3});
+
+							//this.ticks.push({width:0, t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
+							//this.ticks.push({width:0, t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
+							//this.ticks.push({ width:0,t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
 					}
 					console.log(this.ticks);
 				} else {
