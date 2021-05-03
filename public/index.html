@@ -40,7 +40,7 @@
 							  		</g>
 							  		{{startPhase}} 	
 							  		<g  v-for="note ,i in notes" :transform="`rotate (${(note.t) * 360}, ${tickX(note)}, 50)`">
-									  	<image :x="tickX(note) - 50"  y="0	" :href="noteImage(note)" width="100" height="100"></image>
+									  	<image :x="tickX(note) - (note.success? 50 : 25)"  y="0	" :href="noteImage(note)" :width="note.success ? 100 : 50":height="note.success ? 100: 50"></image>
 							  			
 							  			<!--CIRCLE :cx="getCx(note)" :cy="50"  fill="none" stroke="white" stroke-width="3px" :r="12"></CIRCLE>
 							  			<CIRCLE :cx="getCx(note)" :cy="50"  :fill="note.success? 'green' : 'pink'" stroke=none  :r="5"></CIRCLE-->

@@ -338,7 +338,7 @@ window.onload = function() {
 					for(let i = 0; i < barCount ; i++) {
 							let tickPlace = i * tickDistance + startPhase;	
 							this.ticks.push({image:true, width:tickDistance * this.speed, t: tickPlace, size: 40, stroke: 3});
-							this.vines.push({width:tickDistance * this.speed, t: tickPlace});
+							if(i % 3 == 0) this.vines.push({width:tickDistance * 3 * this.speed, t: tickPlace});
 
 							this.ticks.push({width:0, t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
 							this.ticks.push({width:0, t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
