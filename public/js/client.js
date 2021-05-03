@@ -108,7 +108,7 @@ window.onload = function() {
 				y: 100,
 				t: 0,
 				fps: 60,
-				tolerance: 0.2,
+				tolerance: 0.07,
 			}
 		},
 		 created: async function() {
@@ -127,7 +127,7 @@ window.onload = function() {
 		},
 		methods: {
 			getCx: function(note) {
-				return (note.t - this.t) * this.speed;
+				return (note.t - this.t) * this.speed + this.offset;
 			},
 			noteImage: function(note) {
 
@@ -135,7 +135,7 @@ window.onload = function() {
 				return `images/${note.success? "flower" : "bud"}${color}.png`;
 			},
 			tickX: function(tick) {
-				return (tick.t - this.t) * this.speed;
+				return (tick.t - this.t) * this.speed + this.offset;
 			},
 			changeScene: function(e) {
 				this.video = null;
@@ -259,13 +259,20 @@ window.onload = function() {
 			},
 			checkHit:function() {
 				let notes = this.notes;
+				let closestNote;
 				for(note of notes) {
-					let distance = Math.abs(this.t - note.t);
-					if ((distance) < this.tolerance) {
-						note.success = true;
-					} else if (distance < this.tolerance * 2) {
-						note.success = false;
+					let distance = note.t - this.t;
+					if(Math.abs(distance) < 1) console.log(distance)
+					if (
+						(distance < -this.tolerance || distance < this.tolerance)
+						&& !note.success
+					) {
+						console.log(distance);
+						closestNote = note;
 					}
+				}
+				if(closestNote && typeof close) {
+					closestNote.success = true;
 				}
 			},
 			
@@ -338,8 +345,6 @@ window.onload = function() {
 							this.ticks.push({ width:0,t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
 					}
 					console.log(this.ticks);
-				} else {
-					console.log("No bpm");
 				}
 				this.startFrameUpdate ();
 

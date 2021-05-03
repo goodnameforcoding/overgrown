@@ -30,16 +30,16 @@
 				  			<div style="position: relative;">
   							  <video controls @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px" autoplay :src="url"></video>
 								  <SVG viewbox="0 0 1000 200" style="position:absolute; top: 0; left: 0; right: 0;">
-								  	<line :x1="0" y1="0" :x2="0" y2="100" :stroke="staffColor" stroke-width="2px"></line>
-								  	<line :x1="0" y1="50" x2="0" y2="50" :stroke="staffColor" stroke-width="3px"></line>
+								  	<line :x1="offset" y1="0" :x2="offset" y2="100" :stroke="staffColor" stroke-width="2px"></line>
+								  	<!--line :x1="0" y1="50" :x2="1000" y2="50" :stroke="staffColor" stroke-width="3px"></line-->
 								  	<g  v-for="vine in vines">
 									  	<image :x="tickX(vine)"  y="0" href="images/vinewrap.png" :width="vine.width" height="100"></image>
 							  		</g>
 								  	<g  v-for="tick in ticks">
 									  	<!--line :x1="tickX(tick)" :x2="tickXtick)" :stroke="staffColor"  y1="0" y2="200" href="images/vinewrap.png" stroke-width: "tick.stroke-width"></image-->
 							  		</g>
-							  		{{startPhase}}
-							  		<g  v-for="note in notes">
+							  		{{startPhase}} 	
+							  		<g  v-for="note ,i in notes" :transform="`rotate (${(note.t) * 360}, ${tickX(note)}, 50)`">
 									  	<image :x="tickX(note) - 50"  y="0	" :href="noteImage(note)" width="100" height="100"></image>
 							  			
 							  			<!--CIRCLE :cx="getCx(note)" :cy="50"  fill="none" stroke="white" stroke-width="3px" :r="12"></CIRCLE>
