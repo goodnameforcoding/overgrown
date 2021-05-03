@@ -32,14 +32,18 @@
 								  <SVG viewbox="0 0 1000 200" style="position:absolute; top: 0; left: 0; right: 0;">
 								  	<line :x1="0" y1="0" :x2="0" y2="100" :stroke="staffColor" stroke-width="2px"></line>
 								  	<line :x1="0" y1="50" x2="0" y2="50" :stroke="staffColor" stroke-width="3px"></line>
+								  	<g  v-for="vine in vines">
+									  	<image :x="tickX(vine)"  y="0" href="images/vinewrap.png" :width="vine.width" height="100"></image>
+							  		</g>
 								  	<g  v-for="tick in ticks">
-									  	<image :x="tickX(tick)"  y="0" href="images/vinewrap.png" :width="tick.width" height="100"></image>
+									  	<!--line :x1="tickX(tick)" :x2="tickXtick)" :stroke="staffColor"  y1="0" y2="200" href="images/vinewrap.png" stroke-width: "tick.stroke-width"></image-->
 							  		</g>
 							  		{{startPhase}}
 							  		<g  v-for="note in notes">
-							  			<
-							  			<CIRCLE :cx="getCx(note)" :cy="50"  fill="none" stroke="white" stroke-width="3px" :r="12"></CIRCLE>
-							  			<CIRCLE :cx="getCx(note)" :cy="50"  :fill="note.success? 'green' : 'pink'" stroke=none  :r="5"></CIRCLE>
+									  	<image :x="tickX(note)"  y="0	" :href="noteImage(note)" width="100" height="100"></image>
+							  			
+							  			<!--CIRCLE :cx="getCx(note)" :cy="50"  fill="none" stroke="white" stroke-width="3px" :r="12"></CIRCLE>
+							  			<CIRCLE :cx="getCx(note)" :cy="50"  :fill="note.success? 'green' : 'pink'" stroke=none  :r="5"></CIRCLE-->
 							  		</g>
 							  		<g v-for="bling in blings">
 							  		</g>
@@ -96,7 +100,8 @@
 							<v-row>T: {{t}}</v-row>
 							<v-row>
 							<v-col>{{notes.length}}
-								<v-btn @click="saveNotes">Save Notes</v-btn><v-switch v-model="record"></v-switch>
+								<v-switch label="record" v-model="record"></v-switch>
+								<v-switch v-if="record" label="quantize" v-model="quantize"></v-switch>
 							</v-col>
 								<table>
 									<tr v-for="note in notes"><td>{{note.t}}</td></tr>

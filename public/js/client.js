@@ -3,8 +3,10 @@ console.log("text");
 let PLAY_NORMAL = 49;
 let SLOW_1 = 50;
 let SLOW_2 = 51;
+let SLOW_DOWN = 52;
+let SPEED_UP = 53;
 
-
+const flowerColors =  ['Red', 'Pink', 'Orange', 'Blue'];
 const url = 'https://spreadsheets.google.com/feeds/cells/1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM/1/public/full?alt=json';
 window.onload = function() {
 	console.log("window loaded");
@@ -82,8 +84,10 @@ window.onload = function() {
 				scenes: [],
 				scenesByName: {},
 				sceneKey: "",
+				quantize: true,
 				scene: null,
 				ticks: [],
+				vines: [],
 				url: null,
 				ticksActive: 0,
 				bpm: 140,
@@ -125,6 +129,11 @@ window.onload = function() {
 			getCx: function(note) {
 				return (note.t - this.t) * this.speed;
 			},
+			noteImage: function(note) {
+
+				let color = note.color ? note.color : "Pink";
+				return `images/${note.success? "flower" : "bud"}${color}.png`;
+			},
 			tickX: function(tick) {
 				return (tick.t - this.t) * this.speed;
 			},
@@ -154,6 +163,7 @@ window.onload = function() {
 				let sheetJson = this.parseSheet(noteData);
 				for(let note of sheetJson) {
 					note.t = parseFloat(note.t);
+					note.color = note.color ? note.color : flowerColors[Math.floor(Math.random() * 4)];
 				}
 				return sheetJson;
 			},
@@ -219,12 +229,20 @@ window.onload = function() {
 						this.video.playbackRate = 0.5;
 					}else if (e.keyCode == SLOW_2) {
 						this.video.playbackRate = 0.25;
+					}else if (e.keyCode == SLOW_DOWN) {
+						this.video.playbackRate *= 0.5;					
+					}else if (e.keyCode == SPEED_UP) {
+						this.video.playbackRate *= 2;
 					}
-					console.log(this.video.playbackRate);
+
 					if(this.record) {
 						let closestTime = null;
-						for(let tick of this.ticks) {
-							closestTime = Math.abs(tick.t - this.t) < Math.abs(closestTime - this.t) ?  tick.t : closestTime;
+						if(this.quantize) {
+							for(let tick of this.ticks) {
+								closestTime = Math.abs(tick.t - this.t) < Math.abs(closestTime - this.t) && tick.t < this.t?  tick.t : closestTime;
+							}
+						} else {
+							closestTime = this.t;
 						}
 						console.log(this.notes);
 						this.notes.push({t: closestTime});
@@ -313,10 +331,11 @@ window.onload = function() {
 					for(let i = 0; i < barCount ; i++) {
 							let tickPlace = i * tickDistance + startPhase;	
 							this.ticks.push({image:true, width:tickDistance * this.speed, t: tickPlace, size: 40, stroke: 3});
+							this.vines.push({width:tickDistance * this.speed, t: tickPlace});
 
-							//this.ticks.push({width:0, t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
-							//this.ticks.push({width:0, t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
-							//this.ticks.push({ width:0,t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
+							this.ticks.push({width:0, t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
+							this.ticks.push({width:0, t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
+							this.ticks.push({ width:0,t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
 					}
 					console.log(this.ticks);
 				} else {
