@@ -47,20 +47,26 @@ window.onload = function() {
 
 	let characters = [
    {
-			name: "captain", 
-			skills: ["Trolley Problem"],
+			name: "captain",
+			fullName: "Captain", 
+			skills: [],
 			portrait: "media/captain.jpg",
+			unlocked: false,
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet risus sed libero dapibus consectetur sit amet ac ante. Sed faucibus sem in eros hendrerit, vel varius quam luctus. Curabitur semper, metus id auctor accumsan, sem nisi molestie magna, et eleifend turpis sapien sit amet tellus. Fusce volutpat interdum massa, vitae posuere felis blandit non. Duis velit enim, aliquam a mi in, rutrum gravida lectus. Nulla imperdiet magna enim, eget euismod magna blandit ac. Donec vel mi et nisl ultrices ornare. Cras elementum pharetra commodo. Vivamus ut lorem vestibulum mauris dapibus egestas sed id tortor. In hac habitasse platea dictumst. Quisque sed massa nec mauris molestie finibus. Donec posuere feugiat elementum.",
 		},		
 		{
 			name: "nurse", 
+			fullName: "Nurse", 
 			portrait: "media/nurse.png",
+			unlocked: false,
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet risus sed libero dapibus consectetur sit amet ac ante. Sed faucibus sem in eros hendrerit, vel varius quam luctus. Curabitur semper, metus id auctor accumsan, sem nisi molestie magna, et eleifend turpis sapien sit amet tellus. Fusce volutpat interdum massa, vitae posuere felis blandit non. Duis velit enim, aliquam a mi in, rutrum gravida lectus. Nulla imperdiet magna enim, eget euismod magna blandit ac. Donec vel mi et nisl ultrices ornare. Cras elementum pharetra commodo. Vivamus ut lorem vestibulum mauris dapibus egestas sed id tortor. In hac habitasse platea dictumst. Quisque sed massa nec mauris molestie finibus. Donec posuere feugiat elementum.",
-			skills: ["Map-Reading"],
+			skills: [],
 		},	
  	 {
 			name: "buff wizard", 
+			fullName: "Buff Wizard", 
 			skills: [],
+			unlocked: false,
 			portrait: "media/buffWizard.jpg",
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet risus sed libero dapibus consectetur sit amet ac ante. Sed faucibus sem in eros hendrerit, vel varius quam luctus. Curabitur semper, metus id auctor accumsan, sem nisi molestie magna, et eleifend turpis sapien sit amet tellus. Fusce volutpat interdum massa, vitae posuere felis blandit non. Duis velit enim, aliquam a mi in, rutrum gravida lectus. Nulla imperdiet magna enim, eget euismod magna blandit ac. Donec vel mi et nisl ultrices ornare. Cras elementum pharetra commodo. Vivamus ut lorem vestibulum mauris dapibus egestas sed id tortor. In hac habitasse platea dictumst. Quisque sed massa nec mauris molestie finibus. Donec posuere feugiat elementum.",
 		},		
@@ -146,6 +152,12 @@ window.onload = function() {
 			},	
 			startScene: async function() {
 				this.t = 0;
+				while(this.ticks.length > 0) {
+					this.ticks.pop();
+				}
+				while(this.vines.length > 0) {
+					this.vines.pop();
+				}
 				console.log("starting Scene");
 				this.decisions = null;
 				if(this.scene.bpm) {
@@ -304,7 +316,28 @@ window.onload = function() {
 			endScene: function(scene) {
 				console.log("End Scene");
 				if(scene.decisions) {
-					this.decisions = scene.decisions;
+					if("text" in scene.decision[0]) {
+						this.decisions = scene.decisions;
+					} else if( "mostSkills" in scene.decisions) {
+						let maxSkill = 0;
+						let maxChars = [];
+						for( let char of this.characters ) {
+							let skillCount = char.skills.length;
+							if( skillCount > maxSkill && !char.unlocked) {
+								maxChars = [];
+								maxSkill = char.skills.length;
+							}
+							if(skillCount == maxSkill) {
+								maxChars.push(char);
+							}
+						}
+						this.decisions = maxChars.map( char => {
+						 return { 
+						 		text: `Unlock Backstory: ${char.fullName}`,
+						 		targetScene: scene.decisions[char.fullName].targetScene
+							} 
+						});
+					} 
 				} else if (scene.nextScene) {
 					this.sceneKey = scene.nextScene; //this WILL automatically change the scene key
 					this.changeScene();
@@ -326,16 +359,28 @@ window.onload = function() {
 				let z = 1;
 				console.log("loaded", video);
 				this.ticks = [];
+				this.vines = [];
 				if(this.scene.bpm) {
 					this.bpm = this.scene.bpm;
 
 					//this.bpm = this.scene.bpm;
-					let bpm = parseFloat(this.bpm);
-					let startPhase = parseFloat(this.startPhase ? this.startPhase : 0);
+	
 					let videoDuration = video.duration;
-					let tickDistance = 60 / bpm;
-					let barCount = videoDuration / tickDistance;
-					for(let i = 0; i < barCount ; i++) {
+					let segments = [
+						{	
+							bpm: this.bpm,
+							duration: video.duration,
+							start: this.startPhase,
+						}
+					];
+					for(let segment of segments) {
+						let bpm = parseFloat(segment.bpm);
+						let duration = parseFloat(segment.duration);
+						let tickDistance = 60 / bpm;
+						let barCount = duration / tickDistance;
+						let startPhase = parseFloat(segment.start ? segment.start : 0);
+						console.log(segment, startPhase, barCount, tickDistance);
+						for(let i = 0; i < barCount ; i++) {
 							let tickPlace = i * tickDistance + startPhase;	
 							this.ticks.push({image:true, width:tickDistance * this.speed, t: tickPlace, size: 40, stroke: 3});
 							if(i % 3 == 0) this.vines.push({width:tickDistance * 3 * this.speed, t: tickPlace});
@@ -343,9 +388,10 @@ window.onload = function() {
 							this.ticks.push({width:0, t: tickPlace + tickDistance / 2, size: 20, stroke: 2});
 							this.ticks.push({width:0, t: tickPlace + tickDistance / 3, size: 10, stroke: 1});
 							this.ticks.push({ width:0,t: tickPlace + 2* tickDistance / 3, size: 10, stroke: 1});
+						}						
 					}
-					console.log(this.ticks);
 				}
+				console.log("TICKS", this.ticks);
 				this.startFrameUpdate ();
 
 
