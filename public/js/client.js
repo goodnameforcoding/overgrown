@@ -316,7 +316,7 @@ window.onload = function() {
 			endScene: function(scene) {
 				console.log("End Scene");
 				if(scene.decisions) {
-					if("text" in scene.decision[0]) {
+					if("text" in scene.decisions[0]) {
 						this.decisions = scene.decisions;
 					} else if( "mostSkills" in scene.decisions) {
 						let maxSkill = 0;
