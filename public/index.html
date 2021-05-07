@@ -28,7 +28,7 @@
 				  	<v-card flat :style="insideBoxStyle" v-if="scene" >
 				  		<v-card-text>
 				  			<div style="position: relative; min-width: 900px;">
-  							  <video :controls="debug" @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px;" autoplay :src="url"></video>
+  							  <video :controls="debug" @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px;" autoplay :src="videoUrl"></video>
 								  <SVG viewbox="0 0 1000 200" style="position:absolute; top: 0; left: 0; right: 0;">
 								  	<line :x1="offset" y1="0" :x2="offset" y2="100" :stroke="staffColor" stroke-width="2px"></line>
 								  	<!--line :x1="0" y1="50" :x2="1000" y2="50" :stroke="staffColor" stroke-width="3px"></line-->
@@ -76,7 +76,7 @@
 							          {{character.name}}
 							        </v-btn>
 							      </template>
-							      <v-card>
+							      <v-card color="gray lighten-2">
 							      	<v-card-title>{{character.name}}</v-card-title>
 							      	<v-card-text>
 							      		<v-row>
@@ -85,14 +85,18 @@
 							      			 	></v-img>
 								      		</v-col>
 							      			<v-col cols="10">
-										      	<h2 >Skills</h2>
-										      	<v-row v-if="character.skills && character.skills.length > 0">
-										      		<v-col v-for="skill in character.skills">{{skill}}</v-col>
-									      	</v-row>
-									      	<v-row v-else>
-									      		No skills currently
-									      	</v-row>
-									      	<v-row>Total Count: {{character.skills.length}}</v-row>
+							      				<v-card>
+										      	<v-card-title >Skills</v-card-title>
+										      	<v-card-text>
+											      	<v-row v-if="character.skills && character.skills.length > 0">
+											      		<v-col v-for="skill in character.skills">{{skill}}</v-col>
+											      	</v-row>
+											      	<v-row v-else>
+											      		<v-col>No skills currently</v-col>
+											      	</v-row>
+											      	<v-row><v-col>Total Count: {{character.skills.length}}</v-col></v-row>
+											      </v-card-text>
+											    </v-card>
 									      </v-col>
 								      	</v-row>
 							      	</v-card-text>
@@ -101,6 +105,10 @@
 								</v-col>
 							</v-card-text>
 						</v-card>
+						<v-card v-if="!debug">
+							<v-col>	<v-switch label="debug" v-model="debug"></v-switch></v-col>
+						</v-card>
+
 						<v-card v-if="debug">
 							<v-row>T: {{t}}</v-row>
 							<v-row>

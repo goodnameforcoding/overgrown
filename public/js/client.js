@@ -50,13 +50,13 @@ window.onload = function() {
 			name: "captain",
 			fullName: "Captain", 
 			skills: [],
-			portrait: "media/captain.jpg",
+			portrait: "images/captain.png",
 			unlocked: false,
 		},		
 		{
 			name: "nurse", 
 			fullName: "Nurse", 
-			portrait: "media/nurse.png",
+			portrait: "images/nurse.png",
 			unlocked: false,
 			skills: [],
 		},	
@@ -65,7 +65,7 @@ window.onload = function() {
 			fullName: "Buff Wizard", 
 			skills: [],
 			unlocked: false,
-			portrait: "media/buffWizard.jpg",
+			portrait: "images/buffwizard.png",
 		},		
 	];
 
@@ -120,16 +120,23 @@ window.onload = function() {
 			let baseSheet = this.parseSheet(jsonData);
 			this.populateSceneInfos(baseSheet);
 			this.rawSceneData = baseSheet;
-			this.scene = this.scenesByName.lvl1sc1;
 			this.startScene();
 
 		},
 		computed: {
 			videoUrl: function() {
-				return this.scene? scene.video : false;
+				return this.scene? `http://overgrownmusical.com/${this.url}` : false;
 			},
 		},
 		methods: {
+			getCharacterByName(name) {
+				for (character of this.characters) {
+					if(character.fullName == name || character.name == name || character.name.toLowerCase() == name.toLowerCase() || character.fullName.toLowerCase == name.toLowerCase()) {
+						return character;
+					}
+				}
+				return false;
+			},
 			getCx: function(note) {
 				return (note.t - this.t) * this.speed + this.offset;
 			},
@@ -142,10 +149,7 @@ window.onload = function() {
 				return (tick.t - this.t) * this.speed + this.offset;
 			},
 			changeScene: function(e) {
-				this.video = null;
-
 				console.log("CHANGE SCENE", this.sceneKey);
-				this.scene = this.scenesByName[this.sceneKey];
 				this.startScene();
 			},	
 			startScene: async function() {
@@ -158,6 +162,8 @@ window.onload = function() {
 				}
 				console.log("starting Scene");
 				this.decisions = null;
+
+				this.scene = this.scenesByName[this.sceneKey];
 				if(this.scene.bpm) {
 					 this.notes = await this.getNotes(this.scene);
 				} else {
@@ -184,6 +190,7 @@ window.onload = function() {
 						console.log(level.decisions);
 					 	level.decisions = JSON.parse(level.decisions);
 					}
+					if(level.firstScene) { this.sceneKey = level.level };
 					this.scenes.push(level);
 					this.scenesByName[level.level] = level;
 				}
@@ -229,9 +236,9 @@ window.onload = function() {
 			},
 
 			handleKeyPress(e) {
-				console.log("Handle key press...", e);
+				//console.log("Handle key press...", e);
 				if (this.video) {
-					console.log(e.keyCode);
+					//console.log(e.keyCode);
 					if(e.keyCode == PLAY_NORMAL	) {
 						this.video.playbackRate = 1;
 
@@ -254,7 +261,7 @@ window.onload = function() {
 						} else {
 							closestTime = this.t;
 						}
-						console.log(this.notes);
+						//console.log(this.notes);
 						this.notes.push({t: closestTime});
 					} else {
 						this.checkHit();
@@ -287,8 +294,12 @@ window.onload = function() {
 			},
 			
 			startFrameUpdate: async function() {
+				if(this.currentTick) {
+					console.log(this.currentTick);
+					currentTick.reject();
+				}
 				this.ticksActive++;
-				let currentScene = this.sceneKey;
+				let currentSceneKey = this.sceneKey;
 				if(this.ticksActive > 1) {
 					//throw "DOUBLE TICK BAD";
 				}
@@ -298,7 +309,7 @@ window.onload = function() {
 				}
 				this.t = 0;
 				video.currentTime = 0;
-				console.log("Starting ticks...", this.sceneKey	, currentScene, this.t, video.duration, video.currentTime);
+				console.log("Starting ticks...", this.sceneKey	, currentSceneKey, this.t, video.duration, video.currentTime);
 				while(!video.ended) {
 					this.t = video? video.currentTime : 0;
 
@@ -306,8 +317,9 @@ window.onload = function() {
 
 
 				}
-				console.log("ending ticks", this.sceneKey, currentScene, video.currentTime, video.duration);
+				console.log("ending ticks", this.sceneKey, currentSceneKey, video.currentTime, video.duration);
 				this.endScene(this.scene);
+				this.currentTick = null;
 				this.ticksActive--;
 				
 			},
@@ -342,8 +354,11 @@ window.onload = function() {
 				}
 			},
 			makeDecision: function(decisionMade) {
-				console.log(decisionMade);
+				console.log("made decision:", decisionMade);
 				this.sceneKey = decisionMade.targetScene;
+				if(this.scene.skillName) {
+					this.getCharacterByName(decisionMade.text).skills.push(this.scene.skillName);
+				}
 				this.changeScene();
 			},
 			saveNotes: function() {
@@ -390,7 +405,10 @@ window.onload = function() {
 					}
 				}
 				console.log("TICKS", this.ticks);
-				this.startFrameUpdate ();
+				let currentTick = this.startFrameUpdate ().then( null, () => {
+						console.log("Ended Scene Early");
+
+				});
 
 
 			}
