@@ -101,6 +101,10 @@
 								</v-col>
 							</v-card-text>
 						</v-card>
+						<v-card v-if="!debug">
+							<v-col>	<v-switch label="debug" v-model="debug"></v-switch></v-col>
+						</v-card>
+
 						<v-card v-if="debug">
 							<v-row>T: {{t}}</v-row>
 							<v-row>
