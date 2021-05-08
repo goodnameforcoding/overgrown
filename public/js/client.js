@@ -295,7 +295,7 @@ window.onload = function() {
 			
 			startFrameUpdate: async function() {
 				if(this.currentTick) {
-					console.log(this.currentTick);
+					console.log("TICK EXISTS", this.currentTick);
 					currentTick.reject();
 				}
 				this.ticksActive++;
@@ -309,7 +309,10 @@ window.onload = function() {
 				}
 				this.t = 0;
 				video.currentTime = 0;
-				console.log("Starting ticks...", this.sceneKey	, currentSceneKey, this.t, video.duration, video.currentTime);
+				let tag = Math.random() * 100;
+				console.log(tag);
+
+				console.log("Starting ticks...", this.sceneKey	, currentSceneKey, this.t, video.duration, video.currentTime, tag);
 				while(!video.ended) {
 					this.t = video? video.currentTime : 0;
 
@@ -317,7 +320,7 @@ window.onload = function() {
 
 
 				}
-				console.log("ending ticks", this.sceneKey, currentSceneKey, video.currentTime, video.duration);
+				console.log("ending ticks", this.sceneKey, currentSceneKey, video.currentTime, video.duration, tag);
 				this.endScene(this.scene);
 				this.currentTick = null;
 				this.ticksActive--;
@@ -326,6 +329,7 @@ window.onload = function() {
 			endScene: function(scene) {
 				console.log("End Scene");
 				if(scene.decisions) {
+					console.log(scene.decisions);
 					if("text" in scene.decisions[0]) {
 						this.decisions = scene.decisions;
 					} else if( "mostSkills" in scene.decisions) {
@@ -368,7 +372,6 @@ window.onload = function() {
 
 				let video = e.target;
 				this.video = video;
-				console.log(video.duration);
 				let z = 1;
 				console.log("loaded", video);
 				this.ticks = [];
@@ -404,8 +407,7 @@ window.onload = function() {
 						}						
 					}
 				}
-				console.log("TICKS", this.ticks);
-				let currentTick = this.startFrameUpdate ().then( null, () => {
+				this.currentTick = this.startFrameUpdate ().then( null, () => {
 						console.log("Ended Scene Early");
 
 				});
