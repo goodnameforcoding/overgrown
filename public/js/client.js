@@ -332,8 +332,8 @@ window.onload = function() {
 					console.log(scene.decisions);
 					if("text" in scene.decisions[0]) {
 						this.decisions = scene.decisions;
-					} else if( "mostSkills" in scene.decisions) {
-						let maxSkill = 0;
+					} else if( "mostSkills" in scene.decisions[0]) {
+						let maxSkill = -1;
 						let maxChars = [];
 						for( let char of this.characters ) {
 							let skillCount = char.skills.length;
@@ -345,12 +345,22 @@ window.onload = function() {
 								maxChars.push(char);
 							}
 						}
-						this.decisions = maxChars.map( char => {
-						 return { 
+						console.log("Max Chars", maxChars);
+						console.log("Old Decisions", this.decisions);
+						let decisions = [];
+						let target
+						for (char of maxChars) {
+							console.log(char);
+							console.log(maxChars[char]);
+							console.log(scene.decisions.filter(dec => dec.mostSkills == char.fullName));
+							
+							decisions.push({ 
 						 		text: `Unlock Backstory: ${char.fullName}`,
-						 		targetScene: scene.decisions[char.fullName].targetScene
-							} 
-						});
+						 		targetScene: scene.decisions.filter(dec => dec.mostSkills == char.fullName)[0].targetScene,
+							});
+						}
+						console.log("New Decisions", decisions);
+						this.decisions = decisions;
 					} 
 				} else if (scene.nextScene) {
 					this.sceneKey = scene.nextScene; //this WILL automatically change the scene key
@@ -407,7 +417,8 @@ window.onload = function() {
 						}						
 					}
 				}
-				this.currentTick = this.startFrameUpdate ().then( null, () => {
+				this.currentTick = this.startFrameUpdate ().then( null, (e) => {
+					console.log(e);
 						console.log("Ended Scene Early");
 
 				});
