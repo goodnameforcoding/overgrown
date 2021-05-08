@@ -59,8 +59,9 @@
 					<v-col cols="4">
 						<v-card>
 							<v-select v-if="debug" :items="scenes" @input="changeScene" v-model="sceneKey" item-text="level"></v-select>
-							<v-else><v-btn @click="restartAdventure">Restart Adventure</v-btn>
-							<v-else><v-btn @click="restartScene">Restart Scene</v-btn>
+							<v-btn @click="restartAdventure">Restart Adventure</v-btn>
+							<v-btn @click="restartScene">Restart Scene</v-btn>
+							<v-btn :disabled="!video" @click="togglePause">{{video && video.paused ? "Play" : "Pause" }}</v-btn>
 							<v-card-text>
 								<v-col cols="12" v-for="character in characters">
 									<v-dialog  
