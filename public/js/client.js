@@ -87,6 +87,7 @@ window.onload = function() {
 				scenes: [],
 				scenesByName: {},
 				sceneKey: "",
+				startSceneKey: "",
 				quantize: true,
 				scene: null,
 				ticks: [],
@@ -119,7 +120,16 @@ window.onload = function() {
 			let jsonData = await this.loadJson(1);
 			let baseSheet = this.parseSheet(jsonData);
 			this.populateSceneInfos(baseSheet);
+			this.load();
+			console.log(this.characters);
 			this.rawSceneData = baseSheet;
+			let debugResponse = await fetch('media/debug');
+			this.debug = debugResponse.ok;
+			/*
+			if(window.localStorage.currentSceneKey) {
+				this.sceneKey = window.localStorage.currentSceneKey;
+			}
+			*/
 			this.startScene();
 
 		},
@@ -129,6 +139,27 @@ window.onload = function() {
 			},
 		},
 		methods: {
+			save: function() {
+				window.localStorage.characterJSON = JSON.stringify(this.characters);
+				window.localStorage.currentSceneKey = this.sceneKey;
+			},
+			load: function() {
+				if(window.localStorage.currentSceneKey) {
+					this.sceneKey = window.localStorage.currentSceneKey;
+				}
+				if (window.localStorage.characterJSON) {
+						this.characters = JSON.parse(window.localStorage.characterJSON);
+						console.log(this.characters, window.localStorage.characerJSON);
+
+				}
+			},
+			reset: function() {
+				for(let character of this.characters) {
+					character.skills = [];
+				}
+				this.sceneKey = this.startSceneKey;
+				this.changeScene();
+			},
 			getCharacterByName(name) {
 				for (character of this.characters) {
 					if(character.fullName == name || character.name == name || character.name.toLowerCase() == name.toLowerCase() || character.fullName.toLowerCase == name.toLowerCase()) {
@@ -154,6 +185,9 @@ window.onload = function() {
 			},	
 			startScene: async function() {
 				this.t = 0;
+				if(this.video) {
+					this.video.currentTime = 0;
+				}
 				while(this.ticks.length > 0) {
 					this.ticks.pop();
 				}
@@ -171,6 +205,9 @@ window.onload = function() {
 				}
 				this.bpm = this.scene.bpm;
 				this.url = this.scene.url;
+
+				//window.localStorage.currentSceneKey = this.sceneKey;
+				this.save();
 				this.startPhase = this.scene.startPhase;
 
 			},
@@ -190,7 +227,7 @@ window.onload = function() {
 						console.log(level.decisions);
 					 	level.decisions = JSON.parse(level.decisions);
 					}
-					if(level.firstScene) { this.sceneKey = level.level };
+					if(level.firstScene) { this.sceneKey = level.level; this.startSceneKey = level.level; };
 					this.scenes.push(level);
 					this.scenesByName[level.level] = level;
 				}
@@ -234,24 +271,41 @@ window.onload = function() {
 				let response =  await fetch(`https://spreadsheets.google.com/feeds/cells/${this.sheetCode}/${sheetNumber}/public/full?alt=json`);
 				return response.json();
 			},
-
+			restartScene() {
+				if(this.video) {
+					this.video.currentTime = 0;
+					this.video.play();
+				}
+			},
+			restartAdventure() {
+				if(confirm("Do you want to lose all progress and restart?")) {
+					this.reset();
+				}
+			},
+			togglePause() {
+				if(this.video) {
+					if(this.video.paused) {this.video.play()}
+					else {this.video.pause()}
+				}
+			},
 			handleKeyPress(e) {
 				//console.log("Handle key press...", e);
 				if (this.video) {
 					//console.log(e.keyCode);
-					if(e.keyCode == PLAY_NORMAL	) {
-						this.video.playbackRate = 1;
+					if(this.debug) {
+						if(e.keyCode == PLAY_NORMAL	) {
+							this.video.playbackRate = 1;
 
-					}else if (e.keyCode == SLOW_1) {
-						this.video.playbackRate = 0.5;
-					}else if (e.keyCode == SLOW_2) {
-						this.video.playbackRate = 0.25;
-					}else if (e.keyCode == SLOW_DOWN) {
-						this.video.playbackRate *= 0.5;					
-					}else if (e.keyCode == SPEED_UP) {
-						this.video.playbackRate *= 2;
+						}else if (e.keyCode == SLOW_1) {
+							this.video.playbackRate = 0.5;
+						}else if (e.keyCode == SLOW_2) {
+							this.video.playbackRate = 0.25;
+						}else if (e.keyCode == SLOW_DOWN) {
+							this.video.playbackRate *= 0.5;					
+						}else if (e.keyCode == SPEED_UP) {
+							this.video.playbackRate *= 2;
+						}
 					}
-
 					if(this.record) {
 						let closestTime = null;
 						if(this.quantize) {
@@ -264,6 +318,9 @@ window.onload = function() {
 						//console.log(this.notes);
 						this.notes.push({t: closestTime});
 					} else {
+						if(e.keyCode == 32) {
+							this.togglePause();	
+						}						
 						this.checkHit();
 					}
 

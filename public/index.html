@@ -58,7 +58,9 @@
 					</v-col>
 					<v-col cols="4">
 						<v-card>
-							<v-select :items="scenes" @input="changeScene" v-model="sceneKey" item-text="level"></v-select>
+							<v-select v-if="debug" :items="scenes" @input="changeScene" v-model="sceneKey" item-text="level"></v-select>
+							<v-else><v-btn @click="restartAdventure">Restart Adventure</v-btn>
+							<v-else><v-btn @click="restartScene">Restart Scene</v-btn>
 							<v-card-text>
 								<v-col cols="12" v-for="character in characters">
 									<v-dialog  
@@ -105,15 +107,11 @@
 								</v-col>
 							</v-card-text>
 						</v-card>
-						<v-card v-if="!debug">
-							<v-col>	<v-switch label="debug" v-model="debug"></v-switch></v-col>
-						</v-card>
-
 						<v-card v-if="debug">
 							<v-row>T: {{t}}</v-row>
 							<v-row>
 								<v-col>	<v-switch label="debug" v-model="debug"></v-switch></v-col>
-							<v-col>
+							<v-row>
 								<v-switch label="record" v-model="record"></v-switch>
 								<v-switch v-if="record" label="quantize" v-model="quantize"></v-switch>
 							</v-col>
