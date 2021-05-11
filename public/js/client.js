@@ -413,6 +413,7 @@ window.onload = function() {
 							
 							decisions.push({ 
 						 		text: `Unlock Backstory: ${char.fullName}`,
+						 		unlock: char.fullName,
 						 		targetScene: scene.decisions.filter(dec => dec.mostSkills == char.fullName)[0].targetScene,
 							});
 						}
@@ -427,9 +428,16 @@ window.onload = function() {
 			makeDecision: function(decisionMade) {
 				console.log("made decision:", decisionMade);
 				this.sceneKey = decisionMade.targetScene;
+				console.log(this.scene.skillName);
+				if(decisionMade.unlock) {
+					console.log("UNLOCK");
+					this.getCharacterByName(decisionMade.unlock).unlocked = true;
+				} 
+
 				if(this.scene.skillName) {
 					this.getCharacterByName(decisionMade.text).skills.push(this.scene.skillName);
 				}
+				this.save();
 				this.changeScene();
 			},
 			saveNotes: function() {
