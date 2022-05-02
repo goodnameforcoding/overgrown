@@ -7,7 +7,7 @@ let SLOW_DOWN = 52;
 let SPEED_UP = 53;
 
 const flowerColors =  ['Red', 'Pink', 'Orange', 'Blue'];
-const url = 'https://spreadsheets.google.com/feeds/cells/1G_W2VwxkauhjoE3akiS6VK_2NNZG02wBsrp2KiQ4_gM/1/public/full?alt=json';
+const url = 'https://opensheet.elk.sh/1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA/main';
 window.onload = function() {
 	console.log("window loaded");
 	let app;
