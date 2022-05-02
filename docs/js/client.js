@@ -268,7 +268,7 @@ window.onload = function() {
 			},
 			async loadJson(sheetNumber) {
 				console.log("Loading scene...");
-				let response =  await fetch(`https://spreadsheets.google.com/feeds/cells/${this.sheetCode}/${sheetNumber}/public/full?alt=json`);
+				let response =  await fetch(`https://opensheet.elk.sh/${this.sheetCode}/${sheetNumber}`);
 				return response.json();
 			},
 			restartScene() {
