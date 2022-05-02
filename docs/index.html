@@ -1,0 +1,133 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Overgrown</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+ <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+
+</head>
+
+<body>
+  <script src="js/client.js"></script>
+  <v-app  id="app"  position="relative">
+  	<v-card    flat :style="mainStyle" min-width="1450px" >
+	 		<v-card-text>
+		  	<v-row>
+		  		<v-col cols="8">
+				  	<v-card flat :style="insideBoxStyle" v-if="scene" >
+				  		<v-card-text>
+				  			<div style="position: relative; min-width: 900px;">
+  							  <video :controls="debug" @DurationChange="onVideoLoad" left = 0 right = 0 top = 0 bottom = 0  ref="video" style="max-height: 500px; margin-top:100px;" autoplay :src="videoUrl"></video>
+								  <SVG viewbox="0 0 1000 200" style="position:absolute; top: 0; left: 0; right: 0;">
+								  	<line :x1="offset" y1="0" :x2="offset" y2="100" :stroke="staffColor" stroke-width="2px"></line>
+								  	<!--line :x1="0" y1="50" :x2="1000" y2="50" :stroke="staffColor" stroke-width="3px"></line-->
+								  	<g  v-for="vine in vines">
+									  	<image :x="tickX(vine)"  y="0" href="images/vinewrap.png" :width="vine.width" height="100"></image>
+							  		</g>
+								  	<g  v-for="tick in ticks">
+									  	<!--line :x1="tickX(tick)" :x2="tickXtick)" :stroke="staffColor"  y1="0" y2="200" href="images/vinewrap.png" stroke-width: "tick.stroke-width"></image-->
+							  		</g>
+							  		{{startPhase}} 	
+							  		<g  v-for="note ,i in notes" :transform="`rotate (${(note.t) * 360}, ${tickX(note)}, 50)`">
+									  	<image :x="tickX(note) - (note.success? 50 : 25)"  y="0	" :href="noteImage(note)" :width="note.success ? 100 : 50":height="note.success ? 100: 50"></image>
+							  			
+							  			<!--CIRCLE :cx="getCx(note)" :cy="50"  fill="none" stroke="white" stroke-width="3px" :r="12"></CIRCLE>
+							  			<CIRCLE :cx="getCx(note)" :cy="50"  :fill="note.success? 'green' : 'pink'" stroke=none  :r="5"></CIRCLE-->
+							  		</g>
+							  		<g v-for="bling in blings">
+							  		</g>
+						  		</SVG>
+						  	</div>
+							</v-card-text>
+							<v-card-actions>
+								<v-row>
+									<v-btn v-for="decision in decisions" @click="makeDecision(decision)">{{decision.text}}</v-btn>
+								</v-row>
+						</v-card>
+					</v-col>
+					<v-col cols="4">
+						<v-card>
+							<v-select v-if="debug" :items="scenes" @input="changeScene" v-model="sceneKey" item-text="level"></v-select>
+							<v-btn @click="restartAdventure">Restart Adventure</v-btn>
+							<v-btn @click="restartScene">Restart Scene</v-btn>
+							<v-btn :disabled="!video" @click="togglePause">{{video && video.paused ? "Play" : "Pause" }}</v-btn>
+							<v-card-text>
+								<v-col cols="12" v-for="character in characters">
+									<v-dialog  
+							      transition="slide-x-reverse-transition"
+							      class="characterSheet"
+							      >
+							      <template v-slot:activator="{ on, attrs }">
+							        <v-btn
+							          color="primary"
+							          dark
+							          block
+							          v-bind="attrs"
+							          v-on="on"
+							        >
+							          {{character.name}}
+							        </v-btn>
+							      </template>
+							      <v-card color="gray lighten-2">
+							      	<v-card-title>{{character.name}}</v-card-title>
+							      	<v-card-text>
+							      		<v-row>
+								      		<v-col cols="2" v-if="character.portrait">
+								      			<v-img :src="character.portrait"
+							      			 	></v-img>
+								      		</v-col>
+							      			<v-col cols="10">
+							      				<v-card>
+										      	<v-card-title >Skills</v-card-title>
+										      	<v-card-text>
+											      	<v-row v-if="character.skills && character.skills.length > 0">
+											      		<v-col v-for="skill in character.skills">{{skill}}</v-col>
+											      	</v-row>
+											      	<v-row v-else>
+											      		<v-col>No skills currently</v-col>
+											      	</v-row>
+											      	<v-row><v-col>Total Count: {{character.skills.length}}</v-col></v-row>
+											      </v-card-text>
+											    </v-card>
+									      </v-col>
+								      	</v-row>
+							      	</v-card-text>
+							      </v-card>
+									</v-dialog>
+								</v-col>
+							</v-card-text>
+						</v-card>
+						<v-card v-if="debug">
+							<v-row>T: {{t}}</v-row>
+							<v-row>
+								<v-col>	<v-switch label="debug" v-model="debug"></v-switch></v-col>
+							<v-row>
+								<v-switch label="record" v-model="record"></v-switch>
+								<v-switch v-if="record" label="quantize" v-model="quantize"></v-switch>
+							</v-col>
+								<table>
+									<tr v-for="note in notes"><td>{{note.t}}</td></tr>
+								</table>
+							</v-col>
+							</v-row>
+						</v-card>
+					</v-col>
+				</v-row>
+			</v-card-text>
+		</v-card>
+		</v-app>
+	</v-app>
+
+</body>
+</html>
