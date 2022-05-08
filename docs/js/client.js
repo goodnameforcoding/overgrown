@@ -7,7 +7,7 @@ let SLOW_DOWN = 52;
 let SPEED_UP = 53;
 
 const flowerColors =  ['Red', 'Pink', 'Orange', 'Blue'];
-const url = 'https://opensheet.elk.sh/1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA/main';
+// const url = 'https://sheets.googleapis.com/v4/spreadsheets/1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA?key=AIzaSyC9WIkwuQKBD7nmQfa3S6Xfn3zB0cum-g0';
 window.onload = function() {
 	console.log("window loaded");
 	let app;
@@ -83,7 +83,7 @@ window.onload = function() {
 		vuetify: new Vuetify(),
 		data () {
 			return {
-				sheetCode: '1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA',
+				// sheetCode: '1Zb4UcljIJ6La89uh9z4cT3cAMzHAHk4X813z2VedwfA',
 				scenes: [],
 				scenesByName: {},
 				sceneKey: "",
@@ -91,7 +91,7 @@ window.onload = function() {
 				quantize: true,
 				scene: null,
 				ticks: [],
-				debug: true,
+				debug: false,
 				vines: [],
 				url: null,
 				ticksActive: 0,
@@ -118,13 +118,13 @@ window.onload = function() {
 		},
 		 created: async function() {
 			let jsonData = await this.loadJson(1);
-			let baseSheet = this.parseSheet(jsonData);
-			this.populateSceneInfos(baseSheet);
+			// let baseSheet = this.parseSheet(jsonData);
+			this.populateSceneInfos(jsonData);
 			this.load();
 			console.log(this.characters);
-			this.rawSceneData = baseSheet;
-			let debugResponse = await fetch('media/debug');
-			this.debug = debugResponse.ok;
+			this.rawSceneData = jsonData;
+			// let debugResponse = await fetch('media/debug');
+			// this.debug = debugResponse.ok;
 			/*
 			if(window.localStorage.currentSceneKey) {
 				this.sceneKey = window.localStorage.currentSceneKey;
@@ -135,7 +135,7 @@ window.onload = function() {
 		},
 		computed: {
 			videoUrl: function() {
-				return this.scene? `http://overgrownmusical.com/${this.url}` : false;
+				return this.scene? `${this.url}` : false;
 			},
 		},
 		methods: {
@@ -213,12 +213,12 @@ window.onload = function() {
 			},
 			getNotes: async function(scene) {
 				let noteData = await this.loadJson(scene.rhythmSheet);
-				let sheetJson = this.parseSheet(noteData);
-				for(let note of sheetJson) {
+				// let sheetJson = this.parseSheet(noteData);
+				for(let note of noteData) {
 					note.t = parseFloat(note.t);
 					note.color = note.color ? note.color : flowerColors[Math.floor(Math.random() * 4)];
 				}
-				return sheetJson;
+				return noteData;
 			},
 			populateSceneInfos(levelInfos){
 				for(let info of levelInfos) {
@@ -233,6 +233,7 @@ window.onload = function() {
 				}
 				console.log("SCENES", this.scenes);
 			},
+			/*
 			parseSheet(sheetJson) {
 				let entries = sheetJson.feed.entry;
 				let colCount = sheetJson.feed.gs$colCount.$t;
@@ -266,9 +267,13 @@ window.onload = function() {
 				}
 				return out;
 			},
+			*/
 			async loadJson(sheetNumber) {
 				console.log("Loading scene...");
-				let response =  await fetch(`https://opensheet.elk.sh/${this.sheetCode}/${sheetNumber}`);
+				let requestURL = `data/${sheetNumber}.json`;
+  				let request = new Request(requestURL);
+				let response = await fetch(request);
+
 				return response.json();
 			},
 			restartScene() {

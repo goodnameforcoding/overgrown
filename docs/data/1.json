@@ -1,0 +1,838 @@
+[
+  {
+    "level": "titleScreen",
+    "rhythmSheet": "",
+    "firstScene": "TRUE",
+    "url": "https://video.bunnycdn.com/play/36334/4de4892f-ead1-46ff-aca1-4b245f704676",
+    "bpm": "",
+    "nextScene": "lvl1sc1"
+  },
+  {
+    "level": "lvl1sc1",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SC1.mp4",
+    "bpm": "",
+    "nextScene": "yourFirstBattle"
+  },
+  {
+    "level": "yourFirstBattle",
+    "rhythmSheet": "2",
+    "firstScene": "",
+    "url": "media/YourFirstBattleFiltered.mp4",
+    "bpm": "140",
+    "nextScene": "lvl1sc2",
+    "startPhase": "0"
+  },
+  {
+    "level": "lvl1sc2",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SC2.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl1sg1cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl1sg1nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl1sg1buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Map Reading"
+  },
+  {
+    "level": "lvl1sg1cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG1CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc3"
+  },
+  {
+    "level": "lvl1sg1nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG1NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc3"
+  },
+  {
+    "level": "lvl1sg1buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG1BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc3"
+  },
+  {
+    "level": "lvl1sc3",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SC3.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl1sg2cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl1sg2nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl1sg2buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Trolley Problem"
+  },
+  {
+    "level": "lvl1sg2cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG2CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc4"
+  },
+  {
+    "level": "lvl1sg2buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG2BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc4"
+  },
+  {
+    "level": "lvl1sg2nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG2NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc4"
+  },
+  {
+    "level": "lvl1sc4",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SC4.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl1sg3cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl1sg3nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl1sg3buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Ordering For The Group"
+  },
+  {
+    "level": "lvl1sg3cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG3CAPTAIN.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc5"
+  },
+  {
+    "level": "lvl1sg3buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG3BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc5"
+  },
+  {
+    "level": "lvl1sg3nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SG3NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl1sc5"
+  },
+  {
+    "level": "lvl1sc5",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SC5.mp4",
+    "bpm": "",
+    "nextScene": "vsPitcherPlant"
+  },
+  {
+    "level": "vsPitcherPlant",
+    "rhythmSheet": "3",
+    "firstScene": "",
+    "url": "media/vsPitcherPlant.mp4",
+    "bpm": "145",
+    "nextScene": "lvl1sc6",
+    "startPhase": "0"
+  },
+  {
+    "level": "lvl1sc6",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV1SC6.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc1"
+  },
+  {
+    "level": "lvl2sc1",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SC1.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl2sg4cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl2sg4nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl2sg4buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Fire Starting"
+  },
+  {
+    "level": "lvl2sg4cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG4CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc3"
+  },
+  {
+    "level": "lvl2sg4buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG4BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc3"
+  },
+  {
+    "level": "lvl2sg4nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG4NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc3"
+  },
+  {
+    "level": "lvl2sc3",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SC3.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl2sg5cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl2sg5nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl2sg5buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Riddle Master"
+  },
+  {
+    "level": "lvl2sg5cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG5CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc4"
+  },
+  {
+    "level": "lvl2sg5buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG5BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc4"
+  },
+  {
+    "level": "lvl2sg5nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG5NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc4"
+  },
+  {
+    "level": "lvl2sc4",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SC4.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl2sg6cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl2sg6nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl2sg6buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Plant Doctor"
+  },
+  {
+    "level": "lvl2sg6cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG6CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc5"
+  },
+  {
+    "level": "lvl2sg6buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG6BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc5"
+  },
+  {
+    "level": "lvl2sg6nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SG6NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl2sc5"
+  },
+  {
+    "level": "lvl2sc5",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SC5.mp4",
+    "bpm": "",
+    "nextScene": "vsNecroPlantCer"
+  },
+  {
+    "level": "vsNecroPlantCer",
+    "rhythmSheet": "4",
+    "firstScene": "",
+    "url": "media/vsNecroPlantCer.mp4",
+    "bpm": "140",
+    "nextScene": "lvl2sc6",
+    "startPhase": "0"
+  },
+  {
+    "level": "lvl2sc6",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV2SC6.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"mostSkills\": \"Captain\", \"targetScene\": \"lvl2CapIntro\" }, {\"mostSkills\": \"Nurse\", \"targetScene\": \"lvl2NurseIntro\" },{\"mostSkills\" : \"Buff Wizard\", \"targetScene\": \"lvl2BuffIntro\" }]"
+  },
+  {
+    "level": "lvl3sc1",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SC1.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl3sg7cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl3sg7nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl3sg7buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Beer Pong Skills"
+  },
+  {
+    "level": "lvl3sg7cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG7CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc3"
+  },
+  {
+    "level": "lvl3sg7buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG7BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc3"
+  },
+  {
+    "level": "lvl3sg7nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG7NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc3"
+  },
+  {
+    "level": "lvl3sc3",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SC3.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl3sg8cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl3sg8nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl3sg8buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Grill Master"
+  },
+  {
+    "level": "lvl3sg8cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG8CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc4"
+  },
+  {
+    "level": "lvl3sg8buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG8BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc4"
+  },
+  {
+    "level": "lvl3sg8nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG8NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc4"
+  },
+  {
+    "level": "lvl3sc4",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SC4.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl3sg9cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl3sg9nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl3sg9buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Making Excuses To Leave"
+  },
+  {
+    "level": "lvl3sg9cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG9CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc5"
+  },
+  {
+    "level": "lvl3sg9buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG9BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc5"
+  },
+  {
+    "level": "lvl3sg9nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SG9NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc5"
+  },
+  {
+    "level": "lvl3sc5",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SC5.mp4",
+    "bpm": "",
+    "nextScene": "vsLittleGirl"
+  },
+  {
+    "level": "vsLittleGirl",
+    "rhythmSheet": "5",
+    "firstScene": "",
+    "url": "media/vsLittleGirl.mp4",
+    "bpm": "200",
+    "nextScene": "lvl3sc6",
+    "startPhase": "0"
+  },
+  {
+    "level": "lvl3sc6",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV3SC6.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc1"
+  },
+  {
+    "level": "lvl4sc1",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SC1.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl4sg10cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl4sg10nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl4sg10buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Boat Turning"
+  },
+  {
+    "level": "lvl4sg10cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG10CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc3"
+  },
+  {
+    "level": "lvl4sg10buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG10BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc3"
+  },
+  {
+    "level": "lvl4sg10nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG10NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc3"
+  },
+  {
+    "level": "lvl4sc3",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SC3.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl4sg11cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl4sg11nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl4sg11buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Bubble Making"
+  },
+  {
+    "level": "lvl4sg11cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG11CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc4"
+  },
+  {
+    "level": "lvl4sg11buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG11BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc4"
+  },
+  {
+    "level": "lvl4sg11nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG11NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc4"
+  },
+  {
+    "level": "lvl4sc4",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SC4.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl4sg12cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl4sg12nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl4sg12buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Echolocation"
+  },
+  {
+    "level": "lvl4sg12cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG12CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc5"
+  },
+  {
+    "level": "lvl4sg12buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG12BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc5"
+  },
+  {
+    "level": "lvl4sg12nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SG12NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl4sc5"
+  },
+  {
+    "level": "lvl4sc5",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SC5.mp4",
+    "bpm": "",
+    "nextScene": "vsBuffWizard"
+  },
+  {
+    "level": "vsBuffWizard",
+    "rhythmSheet": "6",
+    "firstScene": "",
+    "url": "media/vsBuffWizard.mp4",
+    "bpm": "155",
+    "nextScene": "lvl4sc6",
+    "startPhase": "0"
+  },
+  {
+    "level": "lvl4sc6",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV4SC6.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"mostSkills\": \"Captain\", \"targetScene\": \"lvl4CapIntro\" }, {\"mostSkills\": \"Nurse\", \"targetScene\": \"lvl4NurseIntro\" },{\"mostSkills\" : \"Buff Wizard\", \"targetScene\": \"lvl4BuffIntro\" }]"
+  },
+  {
+    "level": "lvl5sc1",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SC1.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc2"
+  },
+  {
+    "level": "lvl5sc2",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SC2.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl5sg13cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl5sg13nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl5sg13buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Car Parking (kinda)"
+  },
+  {
+    "level": "lvl5sg13cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG13CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc3"
+  },
+  {
+    "level": "lvl5sg13buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG13BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc3"
+  },
+  {
+    "level": "lvl5sg13nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG13NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc3"
+  },
+  {
+    "level": "lvl5sc3",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SC3.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl5sg14cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl5sg14nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl5sg14buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Elevator Small Talk"
+  },
+  {
+    "level": "lvl5sg14cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG14CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc4"
+  },
+  {
+    "level": "lvl5sg14buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG14BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc4"
+  },
+  {
+    "level": "lvl5sg14nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG14NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc4"
+  },
+  {
+    "level": "lvl5sc4",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SC4.mp4",
+    "bpm": "",
+    "nextScene": "vsMamaNature"
+  },
+  {
+    "level": "vsMamaNature",
+    "rhythmSheet": "7",
+    "firstScene": "",
+    "url": "media/vsMamaNature.mp4",
+    "bpm": "145",
+    "nextScene": "",
+    "startPhase": "0",
+    "decisions": "[{\"text\": \"Captain\", \"targetScene\": \"lvl5sg15cap\" }, {\"text\": \"Nurse\", \"targetScene\": \"lvl5sg15nurse\" },{\"text\": \"Buff Wizard\", \"targetScene\": \"lvl5sg15buff\" }]",
+    "": "",
+    "BUGGED": "",
+    "skillName": "Super Awesome Final Blow!"
+  },
+  {
+    "level": "lvl5sg15cap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG15CAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc5"
+  },
+  {
+    "level": "lvl5sg15buff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG15BUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc5"
+  },
+  {
+    "level": "lvl5sg15nurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SG15NURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc5"
+  },
+  {
+    "level": "lvl5sc5",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5SC5.mp4",
+    "bpm": "",
+    "nextScene": "BardsPlan"
+  },
+  {
+    "level": "BardsPlan",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BardsPlan.mp4",
+    "bpm": "",
+    "nextScene": "",
+    "startPhase": "",
+    "decisions": "[{\"text\": \"Yes\", \"targetScene\": \"lvl5fcYes\" }, {\"text\": \"No\", \"targetScene\": \"lvl5fcNo\" }]"
+  },
+  {
+    "level": "lvl5fcYes",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5FCYES.mp4",
+    "bpm": "",
+    "nextScene": "Credits"
+  },
+  {
+    "level": "lvl5fcNo",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/LV5FCNO.mp4",
+    "bpm": "",
+    "nextScene": "Credits"
+  },
+  {
+    "level": "lvl2BuffIntro",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/backstoryIntro.mp4",
+    "bpm": "",
+    "nextScene": "lvl2BackstorySongBuff"
+  },
+  {
+    "level": "lvl2CapIntro",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/backstoryIntro.mp4",
+    "bpm": "",
+    "nextScene": "lvl2BackstorySongCap"
+  },
+  {
+    "level": "lvl2NurseIntro",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/backstoryIntro.mp4",
+    "bpm": "",
+    "nextScene": "lvl2BackstorySongNurse"
+  },
+  {
+    "level": "lvl4BuffIntro",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/backstoryIntro.mp4",
+    "bpm": "",
+    "nextScene": "lvl4BackstorySongBuff"
+  },
+  {
+    "level": "lvl4CapIntro",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/backstoryIntro.mp4",
+    "bpm": "",
+    "nextScene": "lvl4BackstorySongCap"
+  },
+  {
+    "level": "lvl4NurseIntro",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/backstoryIntro.mp4",
+    "bpm": "",
+    "nextScene": "lvl4BackstorySongNurse"
+  },
+  {
+    "level": "lvl2BackstorySongBuff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BackstorySongBUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc1"
+  },
+  {
+    "level": "lvl2BackstorySongCap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BackstorySongCAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc1"
+  },
+  {
+    "level": "lvl2BackstorySongNurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BackstorySongNURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl3sc1"
+  },
+  {
+    "level": "lvl4BackstorySongBuff",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BackstorySongBUFF.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc1"
+  },
+  {
+    "level": "lvl4BackstorySongCap",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BackstorySongCAP.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc1"
+  },
+  {
+    "level": "lvl4BackstorySongNurse",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/BackstorySongNURSE.mp4",
+    "bpm": "",
+    "nextScene": "lvl5sc1"
+  },
+  {
+    "level": "Credits",
+    "rhythmSheet": "",
+    "firstScene": "",
+    "url": "media/overgrownCredits.mp4"
+  }
+]
